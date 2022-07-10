@@ -12,12 +12,16 @@
 					"name": "SQL"
 				}
 			],
-			"sinks": [],
-			"transformations": [
+			"sinks": [
 				{
-					"name": "select1"
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
 				}
 			],
+			"transformations": [],
 			"scriptLines": [
 				"source(output(",
 				"          CategoryName as string,",
@@ -28,8 +32,16 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     query: 'SELECT TOP 20 pc.Name as CategoryName, p.name as ProductName\\nFROM SalesLT.ProductCategory pc\\nJOIN SalesLT.Product p\\nON pc.productcategoryid = p.productcategoryid',",
 				"     format: 'query') ~> SQL",
-				"SQL select(skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1"
+				"SQL sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
