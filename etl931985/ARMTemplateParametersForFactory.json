@@ -7,6 +7,9 @@
 		},
 		"AzureSqlDatabase1_connectionString": {
 			"value": ""
+		},
+		"CosmosDb1_connectionString": {
+			"value": ""
 		}
 	}
 }
