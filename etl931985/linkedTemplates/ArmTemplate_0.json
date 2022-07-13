@@ -244,6 +244,7 @@
 							},
 							"sink": {
 								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [dbo].[cosmos]",
 								"writeBehavior": "insert",
 								"sqlWriterUseTableLock": false,
 								"disableMetricsCollection": false
@@ -422,8 +423,7 @@
 						"frequency": "Day",
 						"interval": 1,
 						"startTime": "2022-07-13T04:00:00Z",
-						"timeZone": "UTC",
-						"schedule": {}
+						"timeZone": "UTC"
 					}
 				}
 			},
