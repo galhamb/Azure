@@ -457,6 +457,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "pipeline_DimDate",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -465,12 +472,14 @@
 						"frequency": "Day",
 						"interval": 1,
 						"startTime": "2022-07-13T04:00:00Z",
-						"timeZone": "UTC"
+						"timeZone": "UTC",
+						"schedule": {}
 					}
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pipeline_copy_Cosmos')]"
+				"[concat(variables('factoryId'), '/pipelines/pipeline_copy_Cosmos')]",
+				"[concat(variables('factoryId'), '/pipelines/pipeline_DimDate')]"
 			]
 		}
 	]
