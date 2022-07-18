@@ -430,6 +430,48 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline_DimDate')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DimDate",
+						"type": "Script",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "AzureSqlDatabase1",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "truncate table  DimDate ;\r\n------------------------------------\r\nDECLARE @start DATE = '2015-01-01'\r\nWHILE @start < GETDATE()\r\nBEGIN\r\n\tINSERT INTO  DimDate(DateKey,\r\n\t\t\t\t\t\t Date,\r\n\t                     Year, \r\n\t\t\t\t\t\t Month, \r\n\t\t\t\t\t\t DayOfMonth, \r\n\t\t\t\t\t\t WeekOfYear,\r\n\t\t\t\t\t\t DayOfWeek, \r\n\t\t\t\t\t\t Quarter,\r\n\t\t\t\t\t\t MonthName,\r\n\t\t\t\t\t\t DayOfWeekName,\r\n\t\t\t\t\t\t QuarterName)\r\n\t\t\t\t\t\t \r\n\tVALUES( CONVERT(INT, CONVERT(VARCHAR(8), @start, 112)),\r\n\t\t\t@start,\r\n\t        DATEPART(YY,@start),\r\n\t\t\tDATEPART(mm,@start),\r\n\t\t\tDATEPART(dd,@start), \r\n\t\t\tDATEPART(wk,@start),\r\n\t\t\tDATEPART(dw,@start),\r\n\t\t\tDATEPART(QQ,@start),\r\n\t\t\tDATENAME(mm,@start),\r\n\t\t\tDATENAME(dw,@start),\r\n\t\t\tCAST(DATEPART(YEAR, @start) AS NVARCHAR(5)) + ' - Q' + CAST(DATEPART(QUARTER, @start) AS NVARCHAR(5))\t\t\r\n\t\t\t)\r\n\t\r\n\tSET @start = DATEADD(dd,1,@start)\r\n  END\r\n------------------------------------------------------------------------------------------------------------------------------\r\n"
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
 		}
 	]
 }
