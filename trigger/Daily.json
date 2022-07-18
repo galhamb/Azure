@@ -9,6 +9,12 @@
 					"referenceName": "pipeline_copy_Cosmos",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "pipeline_DimDate",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
